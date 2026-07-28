@@ -57,6 +57,153 @@
 
 #
 # =============================================================================
-# YOUR CODE BELOW — remove the # symbols from the scaffold and fill it in
+# YOUR CODE BELOW
 # =============================================================================
+
+def read_dimensions():
+    while True:
+        try:
+            rows = int(input("Enter number of rows: "))
+            cols = int(input("Enter number of columns: "))
+            if rows > 0 and cols > 0:
+                return rows, cols
+            print("Error: Rows and columns must be positive integers.")
+        except ValueError:
+            print("Error: Please enter valid integers.")
+
+
+def read_matrix(rows, cols):
+    matrix = []
+    for i in range(rows):
+        while True:
+            try:
+                values = input(f"Enter row {i + 1}: ").split()
+                if len(values) != cols:
+                    print(f"Error: Please enter {cols} values.")
+                    continue
+                row = [int(value) for value in values]
+                matrix.append(row)
+                break
+            except ValueError:
+                print("Error: Please enter valid integers.")
+    return matrix
+
+
+def display_matrix(matrix):
+    for row in matrix:
+        print(" ".join(str(value).rjust(4) for value in row))
+
+
+def transpose_matrix(matrix):
+    rows = len(matrix)
+    cols = len(matrix[0]) if rows > 0 else 0
+    transposed = []
+    for col in range(cols):
+        new_row = []
+        for row in range(rows):
+            new_row.append(matrix[row][col])
+        transposed.append(new_row)
+    return transposed
+
+
+def add_matrices(matrix_a, matrix_b):
+    if len(matrix_a) != len(matrix_b) or len(matrix_a[0]) != len(matrix_b[0]):
+        return None
+
+    result = []
+    for i in range(len(matrix_a)):
+        new_row = []
+        for j in range(len(matrix_a[0])):
+            new_row.append(matrix_a[i][j] + matrix_b[i][j])
+        result.append(new_row)
+    return result
+
+
+def multiply_matrices(matrix_a, matrix_b):
+    rows_a = len(matrix_a)
+    cols_a = len(matrix_a[0]) if rows_a > 0 else 0
+    rows_b = len(matrix_b)
+    cols_b = len(matrix_b[0]) if rows_b > 0 else 0
+
+    if cols_a != rows_b:
+        return None
+
+    result = []
+    for i in range(rows_a):
+        new_row = []
+        for j in range(cols_b):
+            total = 0
+            for k in range(cols_a):
+                total += matrix_a[i][k] * matrix_b[k][j]
+            new_row.append(total)
+        result.append(new_row)
+    return result
+
+
+def part_a():
+    rows, cols = read_dimensions()
+    matrix = read_matrix(rows, cols)
+    print("\nOriginal Matrix:")
+    display_matrix(matrix)
+    print("\nTransposed Matrix:")
+    display_matrix(transpose_matrix(matrix))
+
+
+def part_b():
+    rows, cols = read_dimensions()
+    print("Enter matrix A:")
+    matrix_a = read_matrix(rows, cols)
+    print("Enter matrix B:")
+    matrix_b = read_matrix(rows, cols)
+
+    result = add_matrices(matrix_a, matrix_b)
+    if result is None:
+        print("Error: Matrices must be the same size.")
+        return
+
+    print("\nResult of Addition:")
+    display_matrix(result)
+
+
+def part_c():
+    rows_a, cols_a = read_dimensions()
+    matrix_a = read_matrix(rows_a, cols_a)
+
+    rows_b, cols_b = read_dimensions()
+    matrix_b = read_matrix(rows_b, cols_b)
+
+    result = multiply_matrices(matrix_a, matrix_b)
+    if result is None:
+        print("Error: The number of columns in matrix A must equal the number of rows in matrix B.")
+        return
+
+    print("\nResult of Multiplication:")
+    display_matrix(result)
+
+
+def main():
+    while True:
+        print("\nMatrix Operations")
+        print("1. Transpose a matrix")
+        print("2. Add two matrices")
+        print("3. Multiply two matrices")
+        print("4. Quit")
+
+        choice = input("Enter your choice (1-4): ").strip()
+
+        if choice == "1":
+            part_a()
+        elif choice == "2":
+            part_b()
+        elif choice == "3":
+            part_c()
+        elif choice == "4":
+            print("Goodbye!")
+            break
+        else:
+            print("Error: Invalid choice.")
+
+
+if __name__ == "__main__":
+    main()
 

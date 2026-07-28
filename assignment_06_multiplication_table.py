@@ -52,6 +52,47 @@
 
 #
 # =============================================================================
-# YOUR CODE BELOW — remove the # symbols from the scaffold and fill it in
+# YOUR CODE BELOW
 # =============================================================================
+
+def print_single_table(number):
+    print(f"Multiplication Table for {number}:")
+    for i in range(1, 13):
+        print(f"{number} x {i} = {number * i}")
+
+
+def print_tables_up_to(n):
+    for table_number in range(1, n + 1):
+        print(f"Multiplication Table for {table_number}:")
+        for multiplier in range(1, 13):
+            print(f"{table_number} x {multiplier} = {table_number * multiplier}")
+        if table_number < n:
+            print("-" * 27)
+
+
+def main():
+    try:
+        single_number = int(input("Enter a number for Part A: "))
+    except ValueError:
+        print("Error: Please enter a valid integer.")
+        return
+
+    print_single_table(single_number)
+
+    try:
+        limit = int(input("Enter a number N for Part B: "))
+    except ValueError:
+        print("Error: Please enter a valid integer.")
+        return
+
+    if limit <= 0:
+        print("Error: N must be a positive integer.")
+        return
+
+    print("\n")
+    print_tables_up_to(limit)
+
+
+if __name__ == "__main__":
+    main()
 
